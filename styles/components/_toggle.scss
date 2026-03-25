@@ -1,0 +1,153 @@
+@use "../variables" as *;
+@use "../mixins" as *;
+
+.rethink-toggle {
+  @include flex(row, center, center);
+  width: 34px;
+  height: 34px;
+  border-radius: $radius-md;
+  color: var(--color-text-secondary);
+  transition: background $transition-fast, color $transition-fast;
+  @include focus-ring;
+
+  &:hover {
+    background: var(--color-surface-hover);
+    color: var(--color-text);
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+// ─── Nav / Header ─────────────────────────────────────────────
+.rethink-nav {
+  @include flex(row, center, space-between);
+  padding: 0 $spacing-md;
+  height: 60px;
+  flex-shrink: 0;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  @include respond-to(md) {
+    padding: 0 $spacing-xl;
+  }
+
+  &__brand {
+    @include flex(row, center, flex-start, $spacing-sm);
+    color: var(--color-text);
+    text-decoration: none;
+    transition: opacity $transition-fast;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  &__brand-icon {
+    @include flex(row, center, center);
+    color: var(--color-accent);
+    flex-shrink: 0;
+  }
+
+  &__brand-text {
+    @include flex(column, flex-start, flex-start);
+    gap: 0;
+  }
+
+  &__brand-name {
+    font-size: $font-size-sm;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    color: var(--color-text);
+  }
+
+  &__brand-tagline {
+    font-size: 10px;
+    color: var(--color-text-muted);
+    letter-spacing: 0.02em;
+    line-height: 1;
+    font-style: italic;
+  }
+
+  &__actions {
+    @include flex(row, center, flex-end, $spacing-xs);
+  }
+
+  &__divider {
+    width: 1px;
+    height: 18px;
+    background: var(--color-border);
+    margin: 0 $spacing-xs;
+  }
+
+  &__link {
+    @include flex(row, center, flex-start, 5px);
+    font-size: $font-size-sm;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    padding: $spacing-xs $spacing-sm;
+    border-radius: $radius-md;
+    transition: background $transition-fast, color $transition-fast;
+    @include focus-ring;
+
+    svg {
+      opacity: 0.6;
+      transition: opacity $transition-fast;
+    }
+
+    &:hover {
+      background: var(--color-surface-hover);
+      color: var(--color-text);
+
+      svg { opacity: 1; }
+    }
+
+    &--active {
+      color: var(--color-accent);
+      background: var(--color-accent-light);
+
+      svg { opacity: 1; }
+    }
+  }
+}
+
+// ─── Footer ───────────────────────────────────────────────────
+.rethink-footer {
+  @include flex(row, center, center, $spacing-sm);
+  flex-shrink: 0;
+  height: 40px;
+  padding: 0 $spacing-md;
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  font-size: $font-size-xs;
+  color: var(--color-text-muted);
+
+  &__brand {
+    @include flex(row, center, flex-start, 5px);
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    letter-spacing: -0.01em;
+  }
+
+  &__dot {
+    width: 5px;
+    height: 5px;
+    border-radius: $radius-full;
+    background: var(--color-accent);
+    flex-shrink: 0;
+  }
+
+  &__sep {
+    color: var(--color-border);
+  }
+
+  &__copy {
+    color: var(--color-text-muted);
+  }
+}

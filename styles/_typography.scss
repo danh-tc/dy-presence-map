@@ -1,0 +1,49 @@
+@use "variables" as *;
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.3;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+h1 { font-size: $font-size-3xl; }
+h2 { font-size: $font-size-2xl; }
+h3 { font-size: $font-size-xl; }
+h4 { font-size: $font-size-lg; }
+
+p {
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+}
+
+.rethink-prose {
+  max-width: 72ch;
+
+  h2 { margin-top: $spacing-xl; margin-bottom: $spacing-sm; }
+  h3 { margin-top: $spacing-lg; margin-bottom: $spacing-xs; }
+  p { margin-bottom: $spacing-md; }
+
+  ul, ol {
+    margin-bottom: $spacing-md;
+    padding-left: $spacing-lg;
+
+    li {
+      margin-bottom: $spacing-xs;
+      color: var(--color-text-secondary);
+      list-style: disc;
+    }
+  }
+
+  img {
+    border-radius: $radius-md;
+    margin: $spacing-lg 0;
+  }
+
+  blockquote {
+    border-left: 3px solid var(--color-accent);
+    padding-left: $spacing-md;
+    color: var(--color-text-secondary);
+    font-style: italic;
+    margin: $spacing-lg 0;
+  }
+}

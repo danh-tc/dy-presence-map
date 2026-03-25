@@ -1,0 +1,169 @@
+@use "../variables" as *;
+@use "../mixins" as *;
+
+.rethink-timeline {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: $spacing-xl $spacing-md;
+
+  @include respond-to(md) {
+    padding: $spacing-2xl $spacing-lg;
+  }
+
+  &__year-group {
+    margin-bottom: $spacing-2xl;
+  }
+
+  &__year-label {
+    font-size: $font-size-xs;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: $spacing-lg;
+    padding-bottom: $spacing-sm;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  &__entries {
+    position: relative;
+    padding-left: $spacing-lg;
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--color-border);
+    }
+  }
+
+  &__entry {
+    position: relative;
+    margin-bottom: $spacing-lg;
+    padding-bottom: $spacing-lg;
+    border-bottom: 1px solid var(--color-border);
+
+    &:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: -($spacing-lg + 5px);
+      top: $spacing-sm;
+      width: 12px;
+      height: 12px;
+      border-radius: $radius-full;
+      background: var(--color-marker);
+      border: 2px solid var(--color-surface);
+      box-shadow: 0 0 0 2px var(--color-marker);
+    }
+
+    &--group::before {
+      background: var(--color-marker-group);
+      box-shadow: 0 0 0 2px var(--color-marker-group);
+    }
+  }
+
+  &__entry-inner {
+    @include flex(row, flex-start, flex-start, $spacing-md);
+    text-decoration: none;
+    border-radius: $radius-md;
+    padding: $spacing-sm;
+    transition: background $transition-fast;
+
+    &:hover {
+      background: var(--color-surface-hover);
+    }
+  }
+
+  &__entry-image {
+    flex-shrink: 0;
+    width: 80px;
+    height: 80px;
+    border-radius: $radius-md;
+    overflow: hidden;
+    background: var(--color-bg-secondary);
+
+    @include respond-to(sm) {
+      width: 96px;
+      height: 96px;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__entry-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__entry-badges {
+    @include flex(row, center, flex-start, $spacing-xs);
+    margin-bottom: $spacing-xs;
+    flex-wrap: wrap;
+  }
+
+  &__entry-badge {
+    display: inline-flex;
+    align-items: center;
+    background: var(--color-accent-light);
+    color: var(--color-accent);
+    font-size: $font-size-xs;
+    font-weight: 600;
+    padding: 1px $spacing-sm;
+    border-radius: $radius-full;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+
+    &--group {
+      background: rgba(37, 99, 235, 0.1);
+      color: var(--color-marker-group);
+    }
+  }
+
+  &__entry-name {
+    font-size: $font-size-base;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: $spacing-xs;
+    @include truncate(2);
+  }
+
+  &__entry-meta {
+    font-size: $font-size-xs;
+    color: var(--color-text-muted);
+    margin-bottom: $spacing-xs;
+  }
+
+  &__entry-summary {
+    font-size: $font-size-sm;
+    color: var(--color-text-secondary);
+    @include truncate(2);
+    line-height: 1.5;
+  }
+
+  &__entry-locations {
+    @include flex(row, center, flex-start, $spacing-xs);
+    margin-top: $spacing-xs;
+    flex-wrap: wrap;
+  }
+
+  &__entry-location-pill {
+    font-size: $font-size-xs;
+    color: var(--color-text-muted);
+    background: var(--color-bg-secondary);
+    padding: 2px $spacing-sm;
+    border-radius: $radius-full;
+    border: 1px solid var(--color-border);
+  }
+}

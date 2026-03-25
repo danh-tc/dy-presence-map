@@ -1,0 +1,179 @@
+@use "../variables" as *;
+@use "../mixins" as *;
+
+.rethink-detail {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: $spacing-xl $spacing-md;
+
+  @include respond-to(md) {
+    padding: $spacing-2xl $spacing-lg;
+  }
+
+  &__back {
+    @include flex(row, center, flex-start, $spacing-xs);
+    font-size: $font-size-sm;
+    color: var(--color-text-muted);
+    margin-bottom: $spacing-lg;
+    transition: color $transition-fast;
+    @include focus-ring;
+
+    &:hover {
+      color: var(--color-accent);
+    }
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  &__hero {
+    position: relative;
+    height: 320px;
+    border-radius: $radius-xl;
+    overflow: hidden;
+    background: var(--color-bg-secondary);
+    margin-bottom: $spacing-xl;
+
+    @include respond-to(md) {
+      height: 440px;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__header {
+    margin-bottom: $spacing-xl;
+  }
+
+  &__badges {
+    @include flex(row, center, flex-start, $spacing-xs);
+    margin-bottom: $spacing-md;
+    flex-wrap: wrap;
+  }
+
+  &__badge {
+    display: inline-flex;
+    align-items: center;
+    background: var(--color-accent-light);
+    color: var(--color-accent);
+    font-size: $font-size-xs;
+    font-weight: 600;
+    padding: 3px $spacing-sm;
+    border-radius: $radius-full;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+
+    &--group {
+      background: rgba(37, 99, 235, 0.1);
+      color: var(--color-marker-group);
+    }
+  }
+
+  &__title {
+    font-size: $font-size-3xl;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: $spacing-sm;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+
+  &__meta {
+    @include flex(row, center, flex-start, $spacing-md);
+    flex-wrap: wrap;
+    color: var(--color-text-muted);
+    font-size: $font-size-sm;
+
+    span {
+      @include flex(row, center, flex-start, $spacing-xs);
+    }
+
+    svg {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+    }
+  }
+
+  &__locations {
+    @include flex(row, flex-start, flex-start, $spacing-md);
+    flex-wrap: wrap;
+    margin: $spacing-lg 0;
+    padding: $spacing-md;
+    background: var(--color-bg-secondary);
+    border-radius: $radius-lg;
+    border: 1px solid var(--color-border);
+  }
+
+  &__location-item {
+    @include flex(row, flex-start, flex-start, $spacing-sm);
+    flex: 1;
+    min-width: 200px;
+  }
+
+  &__location-marker {
+    width: 24px;
+    height: 24px;
+    border-radius: $radius-full;
+    background: var(--color-marker-group);
+    flex-shrink: 0;
+    @include flex(row, center, center);
+
+    svg {
+      width: 12px;
+      height: 12px;
+      fill: white;
+    }
+  }
+
+  &__location-info {
+    flex: 1;
+  }
+
+  &__location-name {
+    font-size: $font-size-sm;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  &__location-date {
+    font-size: $font-size-xs;
+    color: var(--color-text-muted);
+  }
+
+  &__gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-sm;
+    margin: $spacing-xl 0;
+
+    @include respond-to(md) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      border-radius: $radius-md;
+      cursor: pointer;
+      transition: opacity $transition-fast;
+
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+  }
+
+  &__content {
+    margin-top: $spacing-xl;
+    padding-top: $spacing-xl;
+    border-top: 1px solid var(--color-border);
+  }
+}

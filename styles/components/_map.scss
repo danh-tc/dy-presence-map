@@ -1,0 +1,204 @@
+@use "../variables" as *;
+@use "../mixins" as *;
+
+.rethink-map {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+
+  // Override Leaflet defaults for theme
+  .leaflet-container {
+    background: var(--color-bg-secondary);
+    font-family: inherit;
+    height: 100%;
+    width: 100%;
+  }
+
+  .leaflet-popup-content-wrapper {
+    border-radius: $radius-lg !important;
+    box-shadow: 0 8px 32px var(--color-shadow-md) !important;
+    border: 1px solid var(--color-border) !important;
+    padding: 0 !important;
+    overflow: hidden;
+    background: var(--color-surface) !important;
+    color: var(--color-text) !important;
+  }
+
+  .leaflet-popup-content {
+    margin: 0 !important;
+    width: 280px !important;
+  }
+
+  .leaflet-popup-tip-container {
+    display: none;
+  }
+
+  .leaflet-popup-close-button {
+    color: var(--color-text-muted) !important;
+    top: 8px !important;
+    right: 8px !important;
+    z-index: 10;
+    font-size: 18px !important;
+    line-height: 1 !important;
+    padding: 4px !important;
+    width: auto !important;
+    height: auto !important;
+
+    &:hover {
+      color: var(--color-text) !important;
+    }
+  }
+
+  // Attribution
+  .leaflet-control-attribution {
+    background: var(--color-surface) !important;
+    color: var(--color-text-muted) !important;
+    font-size: 10px !important;
+
+    a { color: var(--color-accent) !important; }
+  }
+
+  .leaflet-control-zoom {
+    border: 1px solid var(--color-border) !important;
+    border-radius: $radius-md !important;
+    overflow: hidden;
+
+    a {
+      background: var(--color-surface) !important;
+      color: var(--color-text) !important;
+      border-bottom-color: var(--color-border) !important;
+
+      &:hover {
+        background: var(--color-surface-hover) !important;
+      }
+    }
+  }
+}
+
+// Custom marker icon
+.rethink-map__marker-icon {
+  @include flex(row, center, center);
+  width: 32px;
+  height: 32px;
+  background: var(--color-marker);
+  border-radius: $radius-full;
+  border: 3px solid var(--color-surface);
+  box-shadow: 0 2px 8px var(--color-shadow-md);
+  transition: transform $transition-fast;
+
+  &--group {
+    background: var(--color-marker-group);
+  }
+
+  svg {
+    width: 14px;
+    height: 14px;
+    fill: white;
+  }
+
+  &:hover {
+    transform: scale(1.15);
+  }
+}
+
+// Popup content
+.rethink-map__popup {
+  display: flex;
+  flex-direction: column;
+
+  &-cover {
+    position: relative;
+    height: 140px;
+    overflow: hidden;
+    background: var(--color-bg-secondary);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &-body {
+    padding: $spacing-md;
+  }
+
+  &-group-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-xs;
+    background: var(--color-marker-group);
+    color: white;
+    font-size: $font-size-xs;
+    font-weight: 600;
+    padding: 2px $spacing-sm;
+    border-radius: $radius-full;
+    margin-bottom: $spacing-sm;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  &-name {
+    font-size: $font-size-base;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: $spacing-xs;
+  }
+
+  &-meta {
+    font-size: $font-size-xs;
+    color: var(--color-text-muted);
+    margin-bottom: $spacing-sm;
+    @include flex(row, center, flex-start, $spacing-xs);
+  }
+
+  &-summary {
+    font-size: $font-size-sm;
+    color: var(--color-text-secondary);
+    @include truncate(3);
+    margin-bottom: $spacing-md;
+    line-height: 1.5;
+  }
+
+  &-thumbnails {
+    @include flex(row, center, flex-start, $spacing-xs);
+    margin-bottom: $spacing-md;
+
+    img {
+      width: 56px;
+      height: 56px;
+      object-fit: cover;
+      border-radius: $radius-sm;
+      border: 1px solid var(--color-border);
+    }
+
+    &-more {
+      width: 56px;
+      height: 56px;
+      border-radius: $radius-sm;
+      background: var(--color-bg-secondary);
+      border: 1px solid var(--color-border);
+      @include flex(row, center, center);
+      font-size: $font-size-xs;
+      color: var(--color-text-muted);
+      font-weight: 600;
+    }
+  }
+
+  &-link {
+    display: block;
+    background: var(--color-accent);
+    color: white;
+    text-align: center;
+    padding: $spacing-sm $spacing-md;
+    border-radius: $radius-md;
+    font-size: $font-size-sm;
+    font-weight: 600;
+    transition: background $transition-fast;
+
+    &:hover {
+      background: var(--color-accent-hover);
+    }
+  }
+}

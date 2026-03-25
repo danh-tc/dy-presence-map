@@ -1,0 +1,40 @@
+@use "variables" as *;
+@use "reset";
+@use "typography";
+@use "mixins" as *;
+@use "components/map";
+@use "components/card";
+@use "components/filter";
+@use "components/stats";
+@use "components/timeline";
+@use "components/search";
+@use "components/toggle";
+@use "components/detail";
+
+// ─── Layout ───────────────────────────────────────────────────
+.rethink-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.rethink-map-page {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0; // allow flex child to shrink below content size
+}
+
+.rethink-map-controls {
+  flex-shrink: 0;
+}
+
+.rethink-map-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  min-height: 0;
+}
+
+// ─── Leaflet CSS workaround ───────────────────────────────────
+// Next.js global import for leaflet CSS is handled in layout.tsx

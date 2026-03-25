@@ -1,0 +1,77 @@
+@use "../variables" as *;
+@use "../mixins" as *;
+
+.rethink-card {
+  @include card-base;
+  overflow: hidden;
+  transition: box-shadow $transition-base, transform $transition-base;
+
+  &:hover {
+    box-shadow: 0 4px 16px var(--color-shadow-md);
+    transform: translateY(-2px);
+  }
+
+  &__image {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+    background: var(--color-bg-secondary);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform $transition-base;
+    }
+
+    &:hover img {
+      transform: scale(1.04);
+    }
+  }
+
+  &__body {
+    padding: $spacing-md;
+  }
+
+  &__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--color-accent-light);
+    color: var(--color-accent);
+    font-size: $font-size-xs;
+    font-weight: 600;
+    padding: 2px $spacing-sm;
+    border-radius: $radius-full;
+    margin-bottom: $spacing-sm;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+
+    &--group {
+      background: rgba(37, 99, 235, 0.1);
+      color: var(--color-marker-group);
+    }
+  }
+
+  &__title {
+    font-size: $font-size-base;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: $spacing-xs;
+    @include truncate(2);
+  }
+
+  &__meta {
+    font-size: $font-size-xs;
+    color: var(--color-text-muted);
+    @include flex(row, center, flex-start, $spacing-xs);
+    margin-bottom: $spacing-sm;
+  }
+
+  &__summary {
+    font-size: $font-size-sm;
+    color: var(--color-text-secondary);
+    @include truncate(3);
+    line-height: 1.55;
+  }
+}
