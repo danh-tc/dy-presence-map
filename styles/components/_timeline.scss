@@ -83,12 +83,13 @@
   }
 
   &__entry-image {
+    position: relative;
     flex-shrink: 0;
     width: 80px;
     height: 80px;
     border-radius: $radius-md;
     overflow: hidden;
-    background: var(--color-bg-secondary);
+    @include shimmer;
 
     @include respond-to(sm) {
       width: 96px;

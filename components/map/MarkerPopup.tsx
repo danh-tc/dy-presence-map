@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import BlurImage from "@/components/ui/BlurImage";
 import Link from "next/link";
 import type { Place } from "@/lib/types";
 
@@ -23,7 +23,7 @@ export default function MarkerPopup({ place }: MarkerPopupProps) {
     <div className="rethink-map__popup">
       {place.coverImage && (
         <div className="rethink-map__popup-cover">
-          <Image
+          <BlurImage
             src={place.coverImage}
             alt={place.name}
             fill
@@ -52,15 +52,16 @@ export default function MarkerPopup({ place }: MarkerPopupProps) {
 
         {thumbs.length > 0 && (
           <div className="rethink-map__popup-thumbnails">
-            {thumbs.map((src, i) => (
-              <Image
-                key={i}
-                src={src}
-                alt={`${place.name} ${i + 1}`}
-                width={56}
-                height={56}
-                style={{ objectFit: "cover" }}
-              />
+            {thumbs.map((src) => (
+              <div key={src} className="rethink-map__popup-thumb">
+                <BlurImage
+                  src={src}
+                  alt={place.name}
+                  fill
+                  style={{ objectFit: "cover" }}
+                  sizes="56px"
+                />
+              </div>
             ))}
             {extra > 0 && (
               <div className="rethink-map__popup-thumbnails-more">

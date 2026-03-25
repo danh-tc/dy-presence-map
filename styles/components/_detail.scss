@@ -33,7 +33,7 @@
     height: 320px;
     border-radius: $radius-xl;
     overflow: hidden;
-    background: var(--color-bg-secondary);
+    @include shimmer;
     margin-bottom: $spacing-xl;
 
     @include respond-to(md) {
@@ -156,18 +156,23 @@
     @include respond-to(md) {
       grid-template-columns: repeat(3, 1fr);
     }
+  }
+
+  &__gallery-item {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    border-radius: $radius-md;
+    overflow: hidden;
+    @include shimmer;
+    cursor: pointer;
 
     img {
-      width: 100%;
-      aspect-ratio: 4 / 3;
       object-fit: cover;
-      border-radius: $radius-md;
-      cursor: pointer;
       transition: opacity $transition-fast;
+    }
 
-      &:hover {
-        opacity: 0.9;
-      }
+    &:hover img {
+      opacity: 0.9;
     }
   }
 

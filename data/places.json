@@ -9,10 +9,10 @@
     "coordinates": [10.5354, 106.4121],
     "date": "2024-03-15",
     "summary": "Một chuyến đi ngắn xuống vùng đồng bằng sông Cửu Long. Cánh đồng lúa xanh tươi, không khí trong lành và những bữa cơm quê giản dị nhưng ấm áp.",
-    "coverImage": "/images/long-an-2024/cover.jpg",
+    "coverImage": "https://picsum.photos/seed/long-an-cover/800/500",
     "featuredImages": [
-      "/images/long-an-2024/1.jpg",
-      "/images/long-an-2024/2.jpg"
+      "https://picsum.photos/seed/long-an-1/800/500",
+      "https://picsum.photos/seed/long-an-2/800/500"
     ]
   },
   {
@@ -25,10 +25,10 @@
     "coordinates": [10.7285, 106.7217],
     "date": "2024-11-10",
     "summary": "Lễ vu quy tại nhà gái. Khoảnh khắc đẹp nhất cuộc đời, được vây quanh bởi những người thân yêu nhất.",
-    "coverImage": "/images/dam-cuoi-2024/nha-gai-cover.jpg",
+    "coverImage": "https://picsum.photos/seed/nha-gai-cover/800/500",
     "featuredImages": [
-      "/images/dam-cuoi-2024/ng-1.jpg",
-      "/images/dam-cuoi-2024/ng-2.jpg"
+      "https://picsum.photos/seed/nha-gai-1/800/500",
+      "https://picsum.photos/seed/nha-gai-2/800/500"
     ],
     "groupId": "dam-cuoi-2024",
     "groupLabel": "Đám cưới 2024"
@@ -43,10 +43,10 @@
     "coordinates": [10.5400, 106.4200],
     "date": "2024-11-11",
     "summary": "Lễ thành hôn tại nhà trai. Ngày hạnh phúc trọn vẹn bên gia đình hai bên.",
-    "coverImage": "/images/dam-cuoi-2024/nha-trai-cover.jpg",
+    "coverImage": "https://picsum.photos/seed/nha-trai-cover/800/500",
     "featuredImages": [
-      "/images/dam-cuoi-2024/nt-1.jpg",
-      "/images/dam-cuoi-2024/nt-2.jpg"
+      "https://picsum.photos/seed/nha-trai-1/800/500",
+      "https://picsum.photos/seed/nha-trai-2/800/500"
     ],
     "groupId": "dam-cuoi-2024",
     "groupLabel": "Đám cưới 2024"
@@ -61,11 +61,11 @@
     "coordinates": [11.9404, 108.4583],
     "date": "2023-12-25",
     "summary": "Giáng sinh ở Đà Lạt - thành phố ngàn hoa trong sương mù. Cà phê sáng bên đường, hoa mimosa vàng rực và không khí se lạnh dễ chịu.",
-    "coverImage": "/images/da-lat-2023/cover.jpg",
+    "coverImage": "https://picsum.photos/seed/da-lat-cover/800/500",
     "featuredImages": [
-      "/images/da-lat-2023/1.jpg",
-      "/images/da-lat-2023/2.jpg",
-      "/images/da-lat-2023/3.jpg"
+      "https://picsum.photos/seed/da-lat-1/800/500",
+      "https://picsum.photos/seed/da-lat-2/800/500",
+      "https://picsum.photos/seed/da-lat-3/800/500"
     ]
   },
   {
@@ -78,10 +78,10 @@
     "coordinates": [15.8801, 108.3380],
     "date": "2023-07-04",
     "summary": "Phố cổ Hội An lung linh về đêm với hàng nghìn chiếc đèn lồng. Dạo bộ dọc bờ sông Hoài và thưởng thức cao lầu, mì Quảng đặc sản.",
-    "coverImage": "/images/hoi-an-2023/cover.jpg",
+    "coverImage": "https://picsum.photos/seed/hoi-an-cover/800/500",
     "featuredImages": [
-      "/images/hoi-an-2023/1.jpg",
-      "/images/hoi-an-2023/2.jpg"
+      "https://picsum.photos/seed/hoi-an-1/800/500",
+      "https://picsum.photos/seed/hoi-an-2/800/500"
     ]
   }
 ]

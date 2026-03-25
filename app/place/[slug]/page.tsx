@@ -1,4 +1,4 @@
-import Image from "next/image";
+import BlurImage from "@/components/ui/BlurImage";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getAllSlugs, getPlacesBySlug } from "@/lib/places";
@@ -82,7 +82,7 @@ export default async function PlaceDetailPage({
 
       {primary.coverImage && (
         <div className="rethink-detail__hero">
-          <Image
+          <BlurImage
             src={primary.coverImage}
             alt={title}
             fill
@@ -142,15 +142,16 @@ export default async function PlaceDetailPage({
 
       {allImages.length > 0 && (
         <div className="rethink-detail__gallery">
-          {allImages.map((src, i) => (
-            <Image
-              key={i}
-              src={src}
-              alt={`${title} ${i + 1}`}
-              width={400}
-              height={300}
-              style={{ objectFit: "cover", width: "100%", height: "auto" }}
-            />
+          {allImages.map((src) => (
+            <div key={src} className="rethink-detail__gallery-item">
+              <BlurImage
+                src={src}
+                alt={title}
+                fill
+                style={{ objectFit: "cover" }}
+                sizes="(max-width: 768px) 50vw, 33vw"
+              />
+            </div>
           ))}
         </div>
       )}

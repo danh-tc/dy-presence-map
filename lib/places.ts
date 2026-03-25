@@ -65,13 +65,15 @@ export function filterPlaces(
     filtered = filtered.filter((p) => p.province === province);
   }
   if (search) {
-    const q = search.toLowerCase();
+    const normalize = (s: string) =>
+      s.normalize("NFD").replaceAll(/\p{Diacritic}/gu, "").toLowerCase();
+    const q = normalize(search);
     filtered = filtered.filter(
       (p) =>
-        p.name.toLowerCase().includes(q) ||
-        p.province.toLowerCase().includes(q) ||
-        p.country.toLowerCase().includes(q) ||
-        p.summary.toLowerCase().includes(q)
+        normalize(p.name).includes(q) ||
+        normalize(p.province).includes(q) ||
+        normalize(p.country).includes(q) ||
+        normalize(p.summary).includes(q)
     );
   }
 

@@ -30,8 +30,12 @@
     border: 1px solid var(--color-border);
     border-radius: $radius-md;
     color: var(--color-text);
-    font-size: $font-size-sm;
+    font-size: 16px; // prevent iOS auto-zoom (triggers when < 16px)
     padding: $spacing-xs $spacing-sm $spacing-xs ($spacing-lg + $spacing-sm);
+
+    @include respond-to(sm) {
+      font-size: $font-size-sm;
+    }
     transition: border-color $transition-fast, background $transition-fast;
     @include focus-ring;
 
@@ -48,6 +52,62 @@
       background: var(--color-surface);
       outline: none;
     }
+  }
+
+  &__input--open {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-color: transparent;
+  }
+
+  &__suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--color-surface);
+    border: 1px solid var(--color-accent);
+    border-top: none;
+    border-bottom-left-radius: $radius-md;
+    border-bottom-right-radius: $radius-md;
+    box-shadow: 0 4px 12px var(--color-shadow-md);
+    list-style: none;
+    z-index: 50;
+    overflow: hidden;
+  }
+
+  &__suggestion {
+    @include flex(row, center, flex-start, $spacing-sm);
+    width: 100%;
+    padding: $spacing-xs $spacing-sm;
+    text-align: left;
+    transition: background $transition-fast;
+    color: var(--color-text);
+
+    svg {
+      flex-shrink: 0;
+      color: var(--color-text-muted);
+    }
+
+    &:hover {
+      background: var(--color-surface-hover);
+
+      svg { color: var(--color-accent); }
+    }
+  }
+
+  &__suggestion-name {
+    font-size: $font-size-sm;
+    font-weight: 500;
+    flex: 1;
+    @include truncate(1);
+  }
+
+  &__suggestion-meta {
+    font-size: $font-size-xs;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 
   &__clear {

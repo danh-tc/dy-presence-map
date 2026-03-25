@@ -1,4 +1,4 @@
-import Image from "next/image";
+import BlurImage from "@/components/ui/BlurImage";
 import Link from "next/link";
 import { groupByYear } from "@/lib/places";
 import type { Place } from "@/lib/types";
@@ -56,21 +56,13 @@ export default function TimelineView({ places }: TimelineViewProps) {
                     className="rethink-timeline__entry-inner"
                   >
                     <div className="rethink-timeline__entry-image">
-                      {place.coverImage ? (
-                        <Image
+                      {place.coverImage && (
+                        <BlurImage
                           src={place.coverImage}
                           alt={place.name}
-                          width={96}
-                          height={96}
-                          style={{ objectFit: "cover", width: "100%", height: "100%" }}
-                        />
-                      ) : (
-                        <div
-                          style={{
-                            width: "100%",
-                            height: "100%",
-                            background: "var(--color-bg-secondary)",
-                          }}
+                          fill
+                          style={{ objectFit: "cover" }}
+                          sizes="96px"
                         />
                       )}
                     </div>

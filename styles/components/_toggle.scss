@@ -73,6 +73,8 @@
     letter-spacing: 0.02em;
     line-height: 1;
     font-style: italic;
+
+    @media (max-width: #{$bp-sm - 1px}) { display: none; }
   }
 
   &__actions {
@@ -94,7 +96,12 @@
     padding: $spacing-xs $spacing-sm;
     border-radius: $radius-md;
     transition: background $transition-fast, color $transition-fast;
+    white-space: nowrap;
     @include focus-ring;
+
+    span {
+      @media (max-width: #{$bp-sm - 1px}) { display: none; }
+    }
 
     svg {
       opacity: 0.6;
@@ -121,6 +128,7 @@
 .rethink-footer {
   @include flex(row, center, center, $spacing-sm);
   flex-shrink: 0;
+  margin-top: auto;
   height: 40px;
   padding: 0 $spacing-md;
   background: var(--color-surface);

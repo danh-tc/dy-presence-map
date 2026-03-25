@@ -111,7 +111,7 @@
     position: relative;
     height: 140px;
     overflow: hidden;
-    background: var(--color-bg-secondary);
+    @include shimmer;
 
     img {
       width: 100%;
@@ -164,26 +164,34 @@
   &-thumbnails {
     @include flex(row, center, flex-start, $spacing-xs);
     margin-bottom: $spacing-md;
+  }
+
+  &-thumb {
+    position: relative;
+    width: 56px;
+    height: 56px;
+    border-radius: $radius-sm;
+    border: 1px solid var(--color-border);
+    overflow: hidden;
+    flex-shrink: 0;
+    @include shimmer;
 
     img {
-      width: 56px;
-      height: 56px;
       object-fit: cover;
-      border-radius: $radius-sm;
-      border: 1px solid var(--color-border);
     }
+  }
 
-    &-more {
-      width: 56px;
-      height: 56px;
-      border-radius: $radius-sm;
-      background: var(--color-bg-secondary);
-      border: 1px solid var(--color-border);
-      @include flex(row, center, center);
-      font-size: $font-size-xs;
-      color: var(--color-text-muted);
-      font-weight: 600;
-    }
+  &-thumbnails-more {
+    width: 56px;
+    height: 56px;
+    border-radius: $radius-sm;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    @include flex(row, center, center);
+    font-size: $font-size-xs;
+    color: var(--color-text-muted);
+    font-weight: 600;
+    flex-shrink: 0;
   }
 
   &-link {

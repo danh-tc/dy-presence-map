@@ -6,7 +6,9 @@ const withMDX = createMDX({});
 const nextConfig: NextConfig = {
   pageExtensions: ["ts", "tsx", "mdx"],
   images: {
-    remotePatterns: [],
+    remotePatterns: [
+      { protocol: "https", hostname: "picsum.photos" },
+    ],
   },
 };
 

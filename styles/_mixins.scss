@@ -40,6 +40,17 @@
   box-shadow: 0 1px 4px var(--color-shadow);
 }
 
+@mixin shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--color-bg-secondary) 0%,
+    var(--color-surface-hover) 50%,
+    var(--color-bg-secondary) 100%
+  );
+  background-size: 200% 100%;
+  animation: rethink-shimmer 1.5s ease infinite;
+}
+
 @mixin focus-ring {
   &:focus-visible {
     outline: 2px solid var(--color-accent);

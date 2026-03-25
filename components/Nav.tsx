@@ -30,7 +30,7 @@ export default function Nav() {
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <polygon points="3 11 22 2 13 21 11 13 3 11" />
           </svg>
-          Bản đồ
+          <span>Bản đồ</span>
         </Link>
         <Link
           href="/timeline"
@@ -44,7 +44,7 @@ export default function Nav() {
             <line x1="3" y1="12" x2="3.01" y2="12" />
             <line x1="3" y1="18" x2="3.01" y2="18" />
           </svg>
-          Timeline
+          <span>Timeline</span>
         </Link>
         <div className="rethink-nav__divider" aria-hidden="true" />
         <ThemeToggle />

@@ -11,6 +11,12 @@
 @use "components/toggle";
 @use "components/detail";
 
+// ─── Shimmer keyframe ─────────────────────────────────────────
+@keyframes rethink-shimmer {
+  0%   { background-position:  200% 0; }
+  100% { background-position: -200% 0; }
+}
+
 // ─── Layout ───────────────────────────────────────────────────
 .rethink-layout {
   display: flex;
