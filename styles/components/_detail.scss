@@ -30,15 +30,11 @@
 
   &__hero {
     position: relative;
-    height: 320px;
+    aspect-ratio: 16 / 9;
     border-radius: $radius-xl;
     overflow: hidden;
     @include shimmer;
     margin-bottom: $spacing-xl;
-
-    @include respond-to(md) {
-      height: 440px;
-    }
 
     img {
       width: 100%;
@@ -51,9 +47,15 @@
     margin-bottom: $spacing-xl;
   }
 
+  &__header-top {
+    @include flex(row, center, space-between, $spacing-sm);
+    margin-bottom: $spacing-md;
+    flex-wrap: wrap;
+    gap: $spacing-sm;
+  }
+
   &__badges {
     @include flex(row, center, flex-start, $spacing-xs);
-    margin-bottom: $spacing-md;
     flex-wrap: wrap;
   }
 
@@ -72,6 +74,37 @@
     &--group {
       background: rgba(37, 99, 235, 0.1);
       color: var(--color-marker-group);
+    }
+  }
+
+  &__share {
+    @include flex(row, center, flex-start, $spacing-xs);
+    font-size: $font-size-sm;
+    color: var(--color-text-muted);
+    background: none;
+    border: 1px solid var(--color-border);
+    border-radius: $radius-full;
+    padding: $spacing-xs $spacing-sm;
+    cursor: pointer;
+    transition: color $transition-fast, border-color $transition-fast, background $transition-fast;
+    white-space: nowrap;
+    @include focus-ring;
+
+    &:hover {
+      color: var(--color-text);
+      border-color: var(--color-text-muted);
+    }
+
+    &--copied {
+      color: var(--color-accent);
+      border-color: var(--color-accent-light);
+      background: var(--color-accent-light);
+    }
+
+    svg {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
     }
   }
 
@@ -102,19 +135,29 @@
   }
 
   &__locations {
-    @include flex(row, flex-start, flex-start, $spacing-md);
-    flex-wrap: wrap;
+    @include flex(column, flex-start, flex-start, $spacing-sm);
     margin: $spacing-lg 0;
     padding: $spacing-md;
     background: var(--color-bg-secondary);
     border-radius: $radius-lg;
     border: 1px solid var(--color-border);
+
+    @include respond-to(md) {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: $spacing-md;
+    }
   }
 
   &__location-item {
     @include flex(row, flex-start, flex-start, $spacing-sm);
-    flex: 1;
-    min-width: 200px;
+    width: 100%;
+
+    @include respond-to(md) {
+      flex: 1;
+      min-width: 200px;
+      width: auto;
+    }
   }
 
   &__location-marker {
@@ -165,14 +208,40 @@
     overflow: hidden;
     @include shimmer;
     cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    @include focus-ring;
 
     img {
       object-fit: cover;
-      transition: opacity $transition-fast;
+      transition: transform $transition-base, opacity $transition-fast;
     }
 
     &:hover img {
-      opacity: 0.9;
+      opacity: 0.85;
+      transform: scale(1.03);
+    }
+  }
+
+  &__gallery-more {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    @include flex(column, center, center, $spacing-xs);
+    color: white;
+    pointer-events: none;
+
+    span:first-child {
+      font-size: $font-size-2xl;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    span:last-child {
+      font-size: $font-size-xs;
+      opacity: 0.85;
+      letter-spacing: 0.03em;
     }
   }
 
@@ -180,5 +249,200 @@
     margin-top: $spacing-xl;
     padding-top: $spacing-xl;
     border-top: 1px solid var(--color-border);
+  }
+
+  // ─── Related places ───────────────────────────────────────────
+
+  &__related {
+    margin-top: $spacing-2xl;
+    padding-top: $spacing-xl;
+    border-top: 1px solid var(--color-border);
+  }
+
+  &__related-title {
+    font-size: $font-size-lg;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: $spacing-lg;
+  }
+
+  &__related-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+
+    @include respond-to(sm) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include respond-to(md) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  &__related-card {
+    @include card-base;
+    overflow: hidden;
+    transition: transform $transition-base, box-shadow $transition-base;
+    @include focus-ring;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px var(--color-shadow-md);
+    }
+
+    &:hover .rethink-detail__related-image img {
+      transform: scale(1.04);
+    }
+  }
+
+  &__related-image {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    @include shimmer;
+
+    img {
+      transition: transform $transition-base;
+    }
+  }
+
+  &__related-info {
+    padding: $spacing-sm $spacing-md $spacing-md;
+  }
+
+  &__related-name {
+    font-size: $font-size-sm;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 2px;
+    @include truncate(1);
+  }
+
+  &__related-meta {
+    font-size: $font-size-xs;
+    color: var(--color-text-muted);
+    @include truncate(1);
+  }
+}
+
+// ─── Lightbox ─────────────────────────────────────────────────
+
+.rethink-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.93);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: rethink-lightbox-in $transition-base;
+
+  &__close {
+    position: absolute;
+    top: $spacing-md;
+    right: $spacing-md;
+    width: 44px;
+    height: 44px;
+    border-radius: $radius-full;
+    background: rgba(0, 0, 0, 0.35);
+    color: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background $transition-fast;
+    z-index: 2;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.55);
+    }
+
+    &:focus-visible {
+      outline: 2px solid white;
+      outline-offset: 2px;
+    }
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  &__stage {
+    position: relative;
+    width: min(90vw, 1200px);
+    height: min(80vh, 900px);
+  }
+
+  &__nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    border-radius: $radius-full;
+    background: rgba(0, 0, 0, 0.35);
+    color: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background $transition-fast;
+    z-index: 2;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.55);
+    }
+
+    &:focus-visible {
+      outline: 2px solid white;
+      outline-offset: 2px;
+    }
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    &--prev {
+      left: $spacing-sm;
+
+      @include respond-to(md) {
+        left: $spacing-xl;
+      }
+    }
+
+    &--next {
+      right: $spacing-sm;
+
+      @include respond-to(md) {
+        right: $spacing-xl;
+      }
+    }
+  }
+
+  &__counter {
+    position: absolute;
+    bottom: $spacing-md;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255, 255, 255, 0.6);
+    font-size: $font-size-sm;
+    background: rgba(0, 0, 0, 0.4);
+    padding: $spacing-xs $spacing-sm;
+    border-radius: $radius-full;
+    white-space: nowrap;
+  }
+}
+
+@keyframes rethink-lightbox-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }

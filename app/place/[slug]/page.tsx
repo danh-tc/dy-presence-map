@@ -1,7 +1,9 @@
 import BlurImage from "@/components/ui/BlurImage";
+import { Gallery } from "@/components/ui/Gallery";
+import { ShareButton } from "@/components/ui/ShareButton";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getAllSlugs, getPlacesBySlug } from "@/lib/places";
+import { getAllPlaces, getAllSlugs, getPlacesBySlug } from "@/lib/places";
 import type { Place } from "@/lib/types";
 
 export async function generateStaticParams() {
@@ -16,7 +18,7 @@ export async function generateMetadata({
   if (!places.length) return {};
   const place = places[0];
   return {
-    title: `${place.groupLabel ?? place.name} - Daen’s Footprints`,
+    title: `${place.groupLabel ?? place.name} - Daen's Footprints`,
     description: place.summary,
   };
 }
@@ -70,6 +72,13 @@ export default async function PlaceDetailPage({
   const title = isGroup ? (primary.groupLabel ?? primary.name) : primary.name;
   const allImages = places.flatMap((p) => p.featuredImages);
 
+  const seenSlugs = new Set([slug]);
+  const relatedPlaces = getAllPlaces().filter((p) => {
+    if (seenSlugs.has(p.slug)) return false;
+    seenSlugs.add(p.slug);
+    return true;
+  }).slice(0, 3);
+
   return (
     <article className="rethink-detail">
       <Link href="/" className="rethink-detail__back">
@@ -94,13 +103,16 @@ export default async function PlaceDetailPage({
       )}
 
       <div className="rethink-detail__header">
-        <div className="rethink-detail__badges">
-          {isGroup && (
-            <span className="rethink-detail__badge rethink-detail__badge--group">
-              Sự kiện
-            </span>
-          )}
-          <span className="rethink-detail__badge">{primary.country}</span>
+        <div className="rethink-detail__header-top">
+          <div className="rethink-detail__badges">
+            {isGroup && (
+              <span className="rethink-detail__badge rethink-detail__badge--group">
+                Sự kiện
+              </span>
+            )}
+            <span className="rethink-detail__badge">{primary.country}</span>
+          </div>
+          <ShareButton />
         </div>
 
         <h1 className="rethink-detail__title">{title}</h1>
@@ -140,21 +152,7 @@ export default async function PlaceDetailPage({
         </div>
       )}
 
-      {allImages.length > 0 && (
-        <div className="rethink-detail__gallery">
-          {allImages.map((src) => (
-            <div key={src} className="rethink-detail__gallery-item">
-              <BlurImage
-                src={src}
-                alt={title}
-                fill
-                style={{ objectFit: "cover" }}
-                sizes="(max-width: 768px) 50vw, 33vw"
-              />
-            </div>
-          ))}
-        </div>
-      )}
+      <Gallery images={allImages} alt={title} />
 
       <div className="rethink-detail__content">
         <div className="rethink-prose">
@@ -166,6 +164,41 @@ export default async function PlaceDetailPage({
           ))}
         </div>
       </div>
+
+      {relatedPlaces.length > 0 && (
+        <div className="rethink-detail__related">
+          <h2 className="rethink-detail__related-title">Địa điểm khác</h2>
+          <div className="rethink-detail__related-grid">
+            {relatedPlaces.map((place) => (
+              <Link
+                key={place.id}
+                href={`/place/${place.slug}`}
+                className="rethink-detail__related-card"
+              >
+                <div className="rethink-detail__related-image">
+                  {place.coverImage && (
+                    <BlurImage
+                      src={place.coverImage}
+                      alt={place.groupLabel ?? place.name}
+                      fill
+                      style={{ objectFit: "cover" }}
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    />
+                  )}
+                </div>
+                <div className="rethink-detail__related-info">
+                  <p className="rethink-detail__related-name">
+                    {place.groupLabel ?? place.name}
+                  </p>
+                  <p className="rethink-detail__related-meta">
+                    {place.province} · {formatDate(place.date)}
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
     </article>
   );
 }

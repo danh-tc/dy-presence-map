@@ -12,7 +12,7 @@ export default function StatsBar() {
       <div className="rethink-stats__divider" />
       <div className="rethink-stats__item">
         <span className="rethink-stats__value">{provinces}</span>
-        <span className="rethink-stats__label">tỉnh / thành</span>
+        <span className="rethink-stats__label">Tỉnh</span>
       </div>
       <div className="rethink-stats__divider" />
       <div className="rethink-stats__item">

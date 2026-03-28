@@ -21,11 +21,12 @@ Xây dựng một website cá nhân để:
 
 | Công nghệ | Mục đích |
 |---|---|
-| **Next.js 14+ (App Router)** | Framework chính |
+| **Next.js 16 (App Router)** | Framework chính |
 | **react-leaflet + OpenStreetMap** | Bản đồ tương tác - miễn phí, không cần API key |
 | **SCSS + BEM** (`rethink-` prefix) | Styling - không dùng Tailwind |
 | **next-themes** | Dark / light mode |
 | **@next/mdx** | Nội dung chi tiết dạng Markdown |
+| **Sharp** | Tối ưu ảnh khi upload (có sẵn trong Next.js) |
 | **JSON files** | Lưu data địa điểm - không cần database |
 
 ---
@@ -50,19 +51,42 @@ Xây dựng một website cá nhân để:
 │   │   └── FilterPanel.tsx     # Dropdown lọc theo quốc gia / tỉnh
 │   ├── timeline/
 │   │   └── TimelineView.tsx    # Danh sách kỷ niệm theo năm
-│   ├── Nav.tsx                 # Thanh navigation
-│   ├── StatsBar.tsx            # Thống kê số địa điểm
-│   ├── SearchBar.tsx           # Tìm kiếm theo tên
-│   ├── ThemeToggle.tsx         # Nút chuyển dark / light
-│   └── Providers.tsx           # ThemeProvider wrapper
-├── content/
-│   └── places/
-│       └── [slug].mdx          # Nội dung dài cho từng địa điểm (tuỳ chọn)
+│   ├── ui/
+│   │   ├── BlurImage.tsx       # Next.js Image với fade-in
+│   │   ├── Gallery.tsx         # Gallery grid + Lightbox (client)
+│   │   └── ShareButton.tsx     # Share dropdown (Facebook, Instagram, copy)
+│   ├── admin/
+│   │   ├── PlaceForm.tsx       # Form tạo/edit place
+│   │   ├── CoordinatePicker.tsx# Nominatim search + Leaflet click
+│   │   ├── LeafletPicker.tsx   # Map picker (dynamic import)
+│   │   ├── ImageUploader.tsx   # Upload ảnh với drag & drop
+│   │   └── GroupForm.tsx       # Form tạo/edit nhóm sự kiện
+│   ├── Nav.tsx
+│   ├── StatsBar.tsx
+│   ├── SearchBar.tsx
+│   ├── ThemeToggle.tsx
+│   └── Providers.tsx
+├── app/
+│   ├── admin/                  # Admin Panel (dev only)
+│   │   ├── layout.tsx
+│   │   ├── page.tsx            # Danh sách places
+│   │   ├── places/new/
+│   │   ├── places/[id]/
+│   │   ├── groups/
+│   │   ├── groups/new/
+│   │   └── groups/[id]/
+│   └── api/admin/              # API routes (dev only)
+│       ├── places/
+│       ├── places/[id]/
+│       ├── upload/
+│       ├── groups/
+│       └── groups/[id]/
 ├── data/
 │   └── places.json             # Toàn bộ data địa điểm
+├── middleware.ts               # Block /admin trong production
 ├── public/
 │   └── images/
-│       └── [slug]/             # Ảnh của từng địa điểm
+│       └── [slug]/             # Ảnh local (.webp sau khi optimize)
 ├── styles/
 │   ├── _variables.scss         # Color tokens, spacing, breakpoints
 │   ├── _mixins.scss            # Responsive, flex helpers
@@ -169,6 +193,75 @@ Mở [http://localhost:3000](http://localhost:3000) để xem kết quả.
 
 ---
 
-## Hướng dẫn sử dụng
+## Tính năng trang chi tiết
 
-Xem file [USAGE.md](USAGE.md) để biết cách thêm địa điểm, thêm ảnh, và quản lý nội dung.
+- **Hero image** — `aspect-ratio: 16/9`, responsive
+- **Gallery** — hiển thị tối đa 6 ảnh, ô cuối có overlay `+N / Xem thêm`
+- **Lightbox** — click ảnh mở full-screen; phím `←` `→` điều hướng, `Esc` đóng
+- **Share** — dropdown với Facebook (popup), Instagram (`navigator.share` / copy), Sao chép link
+- **Related places** — 3 địa điểm mới nhất khác slug hiện tại ở cuối trang
+- **Locations list** (group) — hiển thị từng địa điểm trong nhóm với ngày và tỉnh
+
+---
+
+## Admin Panel
+
+Chạy tại `http://localhost:3000/admin` — chỉ khả dụng khi `NODE_ENV=development`.
+
+`middleware.ts` tự động block toàn bộ `/admin` và `/api/admin` trong production.
+
+### Các trang
+
+| Route | Chức năng |
+|-------|-----------|
+| `/admin` | Danh sách places (table, dedup by slug) |
+| `/admin/places/new` | Tạo place mới |
+| `/admin/places/[id]` | Chỉnh sửa place |
+| `/admin/groups` | Danh sách nhóm sự kiện |
+| `/admin/groups/new` | Tạo nhóm mới |
+| `/admin/groups/[id]` | Chỉnh sửa nhóm |
+
+### Coordinate Picker
+
+- Tìm kiếm địa điểm bằng **Nominatim** (OpenStreetMap, miễn phí, không cần API key)
+- Hoặc click trực tiếp trên bản đồ để lấy tọa độ
+- Debounce 450ms, hiển thị tối đa 6 kết quả
+
+### Image Upload & Optimization
+
+Ảnh được xử lý qua **Sharp** trước khi lưu vào `public/images/[slug]/`:
+
+| Bước | Tác dụng |
+|------|----------|
+| `.rotate()` | Auto-rotate theo EXIF orientation |
+| `.resize({ withoutEnlargement: true })` | Thu nhỏ nếu vượt giới hạn, không phóng to |
+| `.withMetadata({ exif: {} })` | Strip EXIF (GPS, camera info) |
+| `.webp({ quality })` | Convert sang WebP — ~40–70% nhỏ hơn JPEG |
+
+- Cover: max `1800×1200px`, quality 85
+- Featured: max `1200×900px`, quality 82
+- Output luôn lưu dạng `.webp`
+
+### API Routes
+
+```
+GET  /api/admin/places          — lấy tất cả places
+POST /api/admin/places          — tạo place mới → ghi data/places.json
+PUT  /api/admin/places/[id]     — cập nhật place
+DEL  /api/admin/places/[id]     — xoá place
+
+POST /api/admin/upload          — upload + optimize ảnh → public/images/[slug]/
+
+GET  /api/admin/groups          — lấy groups (derived từ places)
+POST /api/admin/groups          — tạo group (gán slug/groupId cho nhiều places)
+PUT  /api/admin/groups/[id]     — cập nhật group (thêm/xoá places, đổi label)
+DEL  /api/admin/groups/[id]     — giải tán group (places trở về độc lập)
+```
+
+---
+
+## Hướng dẫn thêm nội dung
+
+Cách nhanh nhất: dùng Admin Panel tại `/admin`.
+
+Hoặc chỉnh sửa trực tiếp `data/places.json` theo schema ở trên, sau đó đặt ảnh vào `public/images/[slug]/`.

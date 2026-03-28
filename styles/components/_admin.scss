@@ -1,0 +1,761 @@
+@use "../variables" as *;
+@use "../mixins" as *;
+
+// ─── Admin wrapper (hides main nav/footer) ────────────────────
+
+body.rethink-admin-mode {
+  .rethink-nav,
+  .rethink-footer {
+    display: none;
+  }
+}
+
+// ─── Admin shell layout ───────────────────────────────────────
+
+.rethink-admin {
+  display: flex;
+  min-height: 100vh;
+
+  &__sidebar {
+    width: 320px;
+    flex-shrink: 0;
+    background: var(--color-surface);
+    border-right: 1px solid var(--color-border);
+    padding: $spacing-xl $spacing-md;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 10;
+    @include flex(column, flex-start, flex-start, 0);
+  }
+
+  &__brand {
+    @include flex(row, center, flex-start, $spacing-xs);
+    font-size: $font-size-sm;
+    font-weight: 700;
+    color: var(--color-accent);
+    margin-bottom: $spacing-xl;
+    text-decoration: none;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  &__nav-section {
+    width: 100%;
+    margin-bottom: $spacing-lg;
+  }
+
+  &__nav-label {
+    font-size: $font-size-xs;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+    padding: 0 $spacing-sm;
+    margin-bottom: $spacing-xs;
+  }
+
+  &__nav-link {
+    display: block;
+    padding: $spacing-xs $spacing-sm;
+    border-radius: $radius-md;
+    font-size: $font-size-sm;
+    color: var(--color-text-secondary);
+    transition: all $transition-fast;
+    @include focus-ring;
+    text-decoration: none;
+
+    &:hover {
+      background: var(--color-surface-hover);
+      color: var(--color-text);
+    }
+
+    &--active {
+      background: var(--color-accent-light);
+      color: var(--color-accent);
+      font-weight: 500;
+    }
+  }
+
+  &__back-link {
+    @include flex(row, center, flex-start, $spacing-xs);
+    font-size: $font-size-xs;
+    color: var(--color-text-muted);
+    padding: $spacing-xs $spacing-sm;
+    margin-top: auto;
+    text-decoration: none;
+    transition: color $transition-fast;
+    @include focus-ring;
+
+    &:hover {
+      color: var(--color-text);
+    }
+
+    svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  &__main {
+    flex: 1;
+    min-width: 0;
+    margin-left: 320px;
+    padding: $spacing-xl $spacing-2xl;
+    background: var(--color-bg);
+  }
+
+  &__page-header {
+    @include flex(row, center, space-between, $spacing-md);
+    margin-bottom: $spacing-xl;
+    padding-bottom: $spacing-lg;
+    border-bottom: 1px solid var(--color-border);
+    flex-wrap: wrap;
+    gap: $spacing-md;
+  }
+
+  &__page-title {
+    font-size: $font-size-2xl;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+}
+
+// ─── Table ────────────────────────────────────────────────────
+
+.rethink-admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-surface);
+  border-radius: $radius-lg;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+
+  th {
+    text-align: left;
+    font-size: $font-size-xs;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+    padding: $spacing-sm $spacing-md;
+    background: var(--color-bg-secondary);
+    border-bottom: 1px solid var(--color-border);
+    white-space: nowrap;
+  }
+
+  td {
+    padding: $spacing-sm $spacing-md;
+    font-size: $font-size-sm;
+    color: var(--color-text);
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: middle;
+
+    &:last-child {
+      text-align: right;
+    }
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+
+  tr:hover td {
+    background: var(--color-surface-hover);
+  }
+
+  &__actions {
+    @include flex(row, center, flex-end, $spacing-xs);
+  }
+
+  &__empty {
+    text-align: center;
+    color: var(--color-text-muted);
+    padding: $spacing-2xl !important;
+  }
+}
+
+// ─── Form ─────────────────────────────────────────────────────
+
+.rethink-admin-form {
+  max-width: 860px;
+
+  &__section {
+    margin-bottom: $spacing-2xl;
+    padding-bottom: $spacing-xl;
+    border-bottom: 1px solid var(--color-border);
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  &__section-title {
+    font-size: $font-size-base;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: $spacing-lg;
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+    margin-bottom: $spacing-md;
+
+    @include respond-to(md) {
+      &--2col {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      &--3col {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+    }
+  }
+
+  &__field {
+    @include flex(column, flex-start, flex-start, $spacing-xs);
+    width: 100%;
+  }
+
+  &__label {
+    font-size: $font-size-sm;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+  }
+
+  &__label-hint {
+    font-size: $font-size-xs;
+    font-weight: 400;
+    color: var(--color-text-muted);
+    margin-left: $spacing-xs;
+  }
+
+  &__input,
+  &__textarea,
+  &__select {
+    width: 100%;
+    padding: $spacing-sm $spacing-md;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: $radius-md;
+    font-size: $font-size-sm;
+    color: var(--color-text);
+    font-family: $font-sans;
+    transition: border-color $transition-fast, box-shadow $transition-fast;
+    appearance: none;
+
+    &:hover {
+      border-color: var(--color-text-muted);
+    }
+
+    &:focus {
+      border-color: var(--color-accent);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(181, 69, 27, 0.12);
+    }
+
+    &[data-theme="dark"]:focus {
+      box-shadow: 0 0 0 3px rgba(224, 103, 58, 0.15);
+    }
+
+    &::placeholder {
+      color: var(--color-text-muted);
+    }
+  }
+
+  &__textarea {
+    resize: vertical;
+    min-height: 100px;
+    line-height: 1.6;
+  }
+
+  &__hint {
+    font-size: $font-size-xs;
+    color: var(--color-text-muted);
+  }
+
+  &__actions {
+    @include flex(row, center, flex-end, $spacing-sm);
+    padding-top: $spacing-xl;
+    border-top: 1px solid var(--color-border);
+    margin-top: $spacing-xl;
+    flex-wrap: wrap;
+  }
+}
+
+// ─── Buttons ──────────────────────────────────────────────────
+
+.rethink-btn {
+  @include flex(row, center, center, $spacing-xs);
+  padding: $spacing-sm $spacing-md;
+  border-radius: $radius-md;
+  font-size: $font-size-sm;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all $transition-fast;
+  border: none;
+  white-space: nowrap;
+  text-decoration: none;
+  @include focus-ring;
+
+  svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  &--primary {
+    background: var(--color-accent);
+    color: white;
+
+    &:hover {
+      background: var(--color-accent-hover);
+    }
+  }
+
+  &--secondary {
+    background: var(--color-bg-secondary);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+
+    &:hover {
+      background: var(--color-surface-hover);
+    }
+  }
+
+  &--danger {
+    background: rgba(220, 38, 38, 0.1);
+    color: rgb(185, 28, 28);
+
+    &:hover {
+      background: rgba(220, 38, 38, 0.18);
+    }
+  }
+
+  &--ghost {
+    background: none;
+    color: var(--color-text-muted);
+
+    &:hover {
+      color: var(--color-text);
+      background: var(--color-surface-hover);
+    }
+  }
+
+  &--sm {
+    padding: 4px $spacing-sm;
+    font-size: $font-size-xs;
+
+    svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+// ─── Badge ────────────────────────────────────────────────────
+
+.rethink-admin-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px $spacing-sm;
+  border-radius: $radius-full;
+  font-size: $font-size-xs;
+  font-weight: 600;
+
+  &--group {
+    background: rgba(37, 99, 235, 0.1);
+    color: var(--color-marker-group);
+  }
+
+  &--single {
+    background: var(--color-accent-light);
+    color: var(--color-accent);
+  }
+}
+
+// ─── Coordinate picker ────────────────────────────────────────
+
+.rethink-coord-picker {
+  border: 1px solid var(--color-border);
+  border-radius: $radius-lg;
+  overflow: hidden;
+
+  &__search {
+    position: relative;
+    padding: $spacing-sm;
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-surface);
+
+    input {
+      width: 100%;
+      padding: $spacing-sm $spacing-md;
+      padding-right: 40px;
+      background: var(--color-bg-secondary);
+      border: 1px solid var(--color-border);
+      border-radius: $radius-md;
+      font-size: $font-size-sm;
+      color: var(--color-text);
+      font-family: $font-sans;
+      transition: border-color $transition-fast;
+
+      &:focus {
+        border-color: var(--color-accent);
+        outline: none;
+      }
+
+      &::placeholder {
+        color: var(--color-text-muted);
+      }
+    }
+  }
+
+  &__search-icon {
+    position: absolute;
+    right: $spacing-md + $spacing-sm;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-text-muted);
+    pointer-events: none;
+    @include flex(row, center, center);
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  &__results {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: $spacing-sm;
+    right: $spacing-sm;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: $radius-md;
+    box-shadow: 0 8px 24px var(--color-shadow-md);
+    z-index: 20;
+    max-height: 240px;
+    overflow-y: auto;
+  }
+
+  &__result-item {
+    width: 100%;
+    padding: $spacing-sm $spacing-md;
+    font-size: $font-size-sm;
+    text-align: left;
+    background: none;
+    border: none;
+    border-bottom: 1px solid var(--color-border);
+    cursor: pointer;
+    color: var(--color-text);
+    transition: background $transition-fast;
+    @include truncate(2);
+    line-height: 1.4;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background: var(--color-surface-hover);
+    }
+  }
+
+  &__map {
+    height: 340px;
+    position: relative;
+    background: var(--color-bg-secondary);
+  }
+
+  &__coords {
+    @include flex(row, center, flex-start, $spacing-md);
+    padding: $spacing-sm $spacing-md;
+    background: var(--color-bg-secondary);
+    border-top: 1px solid var(--color-border);
+    font-size: $font-size-xs;
+    color: var(--color-text-secondary);
+    gap: $spacing-xs;
+    flex-wrap: wrap;
+
+    code {
+      font-family: monospace;
+      font-size: $font-size-xs;
+      color: var(--color-text);
+      background: var(--color-surface);
+      padding: 2px $spacing-xs;
+      border-radius: $radius-sm;
+    }
+  }
+}
+
+// ─── Image uploader ───────────────────────────────────────────
+
+.rethink-img-uploader {
+  &__dropzone {
+    border: 2px dashed var(--color-border);
+    border-radius: $radius-lg;
+    padding: $spacing-xl;
+    text-align: center;
+    cursor: pointer;
+    transition: all $transition-fast;
+    background: var(--color-bg-secondary);
+    @include focus-ring;
+
+    &:hover,
+    &--drag-over {
+      border-color: var(--color-accent);
+      background: var(--color-accent-light);
+    }
+  }
+
+  &__dropzone-icon {
+    color: var(--color-text-muted);
+    margin-bottom: $spacing-sm;
+
+    svg {
+      width: 28px;
+      height: 28px;
+    }
+  }
+
+  &__dropzone-text {
+    font-size: $font-size-sm;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+
+    strong {
+      color: var(--color-accent);
+    }
+  }
+
+  &__url-row {
+    margin-top: $spacing-sm;
+  }
+
+  &__url-divider {
+    display: block;
+    font-size: $font-size-xs;
+    color: var(--color-text-secondary);
+    text-align: center;
+    margin-bottom: $spacing-xs;
+  }
+
+  &__url-input-row {
+    display: flex;
+    gap: $spacing-xs;
+
+    .rethink-admin-input {
+      flex: 1;
+      min-width: 0;
+    }
+  }
+
+  &__preview-single {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    border-radius: $radius-lg;
+    overflow: hidden;
+    @include shimmer;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__remove-btn {
+    position: absolute;
+    top: $spacing-sm;
+    right: $spacing-sm;
+    width: 28px;
+    height: 28px;
+    border-radius: $radius-full;
+    background: rgba(0, 0, 0, 0.55);
+    color: white;
+    border: none;
+    @include flex(row, center, center);
+    cursor: pointer;
+    transition: background $transition-fast;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.75);
+    }
+
+    svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: $spacing-sm;
+    margin-top: $spacing-sm;
+
+    @include respond-to(md) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  &__thumb {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    border-radius: $radius-md;
+    overflow: hidden;
+    @include shimmer;
+    cursor: grab;
+
+    &:active {
+      cursor: grabbing;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+    }
+
+    &--dragging {
+      opacity: 0.4;
+      outline: 2px dashed var(--color-accent);
+    }
+
+    &--drag-over {
+      outline: 2px solid var(--color-accent);
+      outline-offset: 2px;
+    }
+  }
+}
+
+// ─── Combobox ──────────────────────────────────────────────────
+
+.rethink-combobox {
+  position: relative;
+
+  &__list {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: $radius-md;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    max-height: 220px;
+    overflow-y: auto;
+    padding: 4px;
+    list-style: none;
+    margin: 0;
+  }
+
+  &__option {
+    padding: 8px 10px;
+    border-radius: $radius-sm;
+    font-size: $font-size-sm;
+    cursor: pointer;
+    color: var(--color-text);
+
+    &:hover,
+    &--selected {
+      background: var(--color-surface-hover);
+    }
+
+    &--selected {
+      font-weight: 600;
+    }
+
+    &--create {
+      color: var(--color-accent);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border-top: 1px solid var(--color-border);
+      margin-top: 4px;
+      padding-top: 10px;
+
+      svg {
+        width: 14px;
+        height: 14px;
+        flex-shrink: 0;
+      }
+    }
+  }
+}
+
+// ─── Place picker (for group form) ────────────────────────────
+
+.rethink-place-picker {
+  border: 1px solid var(--color-border);
+  border-radius: $radius-lg;
+  overflow: hidden;
+  max-height: 360px;
+  overflow-y: auto;
+
+  &__item {
+    @include flex(row, center, flex-start, $spacing-sm);
+    padding: $spacing-sm $spacing-md;
+    border-bottom: 1px solid var(--color-border);
+    transition: background $transition-fast;
+    cursor: pointer;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background: var(--color-surface-hover);
+    }
+
+    &--selected {
+      background: var(--color-accent-light);
+    }
+  }
+
+  &__checkbox {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    accent-color: var(--color-accent);
+  }
+
+  &__name {
+    font-size: $font-size-sm;
+    font-weight: 500;
+    color: var(--color-text);
+  }
+
+  &__meta {
+    font-size: $font-size-xs;
+    color: var(--color-text-muted);
+    margin-left: auto;
+    white-space: nowrap;
+  }
+}
+
+// ─── Loader spinner ───────────────────────────────────────────
+
+@keyframes rethink-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.rethink-spin {
+  animation: rethink-spin 0.8s linear infinite;
+}
